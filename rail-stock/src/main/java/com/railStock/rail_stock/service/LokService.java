@@ -30,7 +30,7 @@ public class LokService {
             String spur,
             String epoche,
             String betriebsart,
-            Long herstellerId
+            String herstellerName
     ){
         List<Lok> loks = lokRepository.findAll();
 
@@ -43,7 +43,7 @@ public class LokService {
                 .filter(l -> spur == null || l.getSpur().equalsIgnoreCase(spur))
                 .filter(l -> epoche == null || l.getEpoche().equalsIgnoreCase(epoche))
                 .filter(l -> betriebsart == null || l.getBetriebsart().equalsIgnoreCase(betriebsart))
-                .filter(l -> herstellerId == null || l.getHersteller().equals(herstellerId))
+                .filter(l -> herstellerName == null || l.getHersteller().getName().equalsIgnoreCase(herstellerName))
                 .map(LokMapper::toDTO)
                 .collect(Collectors.toList());
     }

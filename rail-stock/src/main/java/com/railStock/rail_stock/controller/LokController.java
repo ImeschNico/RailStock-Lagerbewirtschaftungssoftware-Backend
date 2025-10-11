@@ -31,8 +31,8 @@ public class LokController {
             @RequestParam(required = false) String spur,
             @RequestParam(required = false) String epoche,
             @RequestParam(required = false) String betriebsart,
-            @RequestParam(required = false) Long herstellerId
+            @RequestParam(required = false) String herstellerName
     ){
-        return lokService.filterLoks(artNumber, bezeichnung, typ, modell, stromart, spur, epoche, betriebsart, herstellerId);
+        return lokService.filterLoks(artNumber, bezeichnung, typ, modell, stromart, spur, epoche, betriebsart, herstellerName);
     }
 }
