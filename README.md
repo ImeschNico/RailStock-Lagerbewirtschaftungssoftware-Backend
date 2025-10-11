@@ -70,6 +70,13 @@ Die IDE startet das Backend automatisch im richtigen Arbeitsverzeichnis.
 | Bestand    | `PUT`  | `http://localhost:8080/api/bestand/transferBestand` | Transferiert Bestände zwischen Lagerplätzen |
 | Bestand   | `PUT`  | `http://localhost:8080/api/bestand/updateBestand` | Bestand Eingang  |
 
+---
+
+## Entwicklung
+
+Das Backend kommuniziert über REST-API mit dem [RailStock Frontend](https://github.com/ImeschNico/RailStock-Lagerbewirtschaftungssoftware-Frontend)
+und bildet die zentrale Basis für die Lagerbewirtschaftung.
+Ziel ist eine modulare Lösung mit sauberer Trennung von Frontend, Backend und Persistenzschicht.
 
 
 
