@@ -84,4 +84,10 @@ Ziel ist eine modulare Lösung mit sauberer Trennung von Frontend, Backend und P
 
 ![](rail-stock/src/docs/Architektur.png)
 
+--- 
+
+## ERD
+
+![](rail-stock/src/docs/Diagramm.png)
+
 
