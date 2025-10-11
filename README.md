@@ -78,5 +78,10 @@ Das Backend kommuniziert über REST-API mit dem [RailStock Frontend](https://git
 und bildet die zentrale Basis für die Lagerbewirtschaftung.
 Ziel ist eine modulare Lösung mit sauberer Trennung von Frontend, Backend und Persistenzschicht.
 
+---
+
+## Architektur
+
+![](src/docs/Architektur.png)
 
 
