@@ -82,6 +82,29 @@ public class BestandService {
                 .collect(Collectors.toList());
     }
 
+    public List<BestandDTO> findByArtNumberIncludingEmpty(String artNumber) {
+        Lok lok = lokRepository.findByArtNumber(artNumber)
+                .orElseThrow(() -> new RuntimeException("Lok nicht gefunden"));
+
+        List<Bestand> bestaende = bestandRepository.findByLok_ArtNumber(artNumber);
+
+        if(bestaende.isEmpty()) {
+            // Bestand = 0, Lagerplatz null oder Standard
+            Bestand fakeBestand = new Bestand();
+            fakeBestand.setLok(lok);
+            fakeBestand.setMenge(0);
+            Lagerplatz legacyLp = new Lagerplatz();
+            legacyLp.setRegal("LEGACY");
+            legacyLp.setTablar("LEGACY");
+            fakeBestand.setLagerplatz(legacyLp);
+            bestaende.add(fakeBestand);
+        }
+
+        return bestaende.stream()
+                .map(BestandMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 
     @Transactional
     public Bestand transferBestand(String artNumber, String vonRegal, String vonTablar, String zuRegal, String zuTablar, int menge) {

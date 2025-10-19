@@ -19,7 +19,7 @@ public interface BestandRepository extends JpaRepository<Bestand, Long> {
 
     List<Bestand> findByLagerplatz_RegalAndLagerplatz_Tablar(String regal, String tablar);
 
-    @Query("SELECT b FROM Bestand b WHERE b.lok.artNumber = :artNumber " +
+    @Query("SELECT b FROM Bestand b WHERE TRIM(LOWER(b.lok.artNumber)) = :artNumber " +
             "AND LOWER(b.lagerplatz.regal) = LOWER(:regal) " +
             "AND LOWER(b.lagerplatz.tablar) = LOWER(:tablar)")
     Optional<Bestand> findByLokAndLagerplatz(@Param("artNumber") String artNumber,

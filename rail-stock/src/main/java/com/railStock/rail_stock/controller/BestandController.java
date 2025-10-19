@@ -26,7 +26,7 @@ public class BestandController {
 
     @GetMapping("/lok/{artNumber}")
     public List<BestandDTO> getBestand(@PathVariable String artNumber) {
-        return bestandService.findByArtNumber(artNumber).stream().map(BestandMapper::toDTO).collect(Collectors.toList());
+        return bestandService.findByArtNumberIncludingEmpty(artNumber);
     }
 
     @PutMapping("/updateBestand")
