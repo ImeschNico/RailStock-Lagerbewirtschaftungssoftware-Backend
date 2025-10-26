@@ -90,4 +90,25 @@ Ziel ist eine modulare Lösung mit sauberer Trennung von Frontend, Backend und P
 
 ![](rail-stock/src/docs/Diagramm.png)
 
+---
+
+## JavaDoc 
+**1. JavaDoc generieren**
+
+Terminal öffnen im Projektordner wechseln und:
+```bash
+# Mit Maven
+mvn javadoc:javadoc
+```
+Die Javadoc Datei wird unter target/site/apidocs erstellt
+
+**2. JavaDoc im Browser öffnen**
+- Zu target/site/apidocs/index.html navigieren
+- Datei im Browser öffnen:
+```bash
+# Windows
+start target\site\apidocs\index.html
+```
+Jetzt kann man die gesamte API-Dokumentation durchstöbern
+
 
