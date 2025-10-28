@@ -9,8 +9,24 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Mapper-Klasse zur Umwandlung zwischen {@link Lok} Entity und {@link LokDTO}.
+ * <p>
+ * Diese Klasse enthält statische Methoden zum Konvertieren von Lok-Entities zu DTOs
+ * und umgekehrt, einschließlich der zugehörigen Herstellerinformationen.
+ * </p>
+ *
+ * @author Nico Imesch
+ * @version 1.0
+ */
 public class LokMapper {
 
+    /**
+     * Wandelt ein {@link Lok}-Entity in ein {@link LokDTO} um.
+     *
+     * @param entity Lok-Entity
+     * @return LokDTO oder {@code null}, falls das Entity {@code null} ist
+     */
     public static LokDTO toDTO(Lok entity) {
         if (entity == null) {
             return null;
@@ -31,9 +47,26 @@ public class LokMapper {
         );
     }
 
+    /**
+     * Standardkonstruktor.
+     * <p>
+     * Da alle Methoden statisch sind, wird dieser Konstruktor selten verwendet.
+     * </p>
+     */
     public LokMapper() {
     }
 
+    /**
+     * Wandelt ein {@link LokDTO} in ein {@link Lok}-Entity um.
+     *
+     * <p>
+     * Falls Herstellerinformationen im DTO vorhanden sind, wird ein {@link Hersteller}-Objekt erzeugt
+     * und der Lok zugewiesen.
+     * </p>
+     *
+     * @param dto LokDTO
+     * @return Lok-Entity oder {@code null}, falls das DTO {@code null} ist
+     */
     public static Lok toEntity(LokDTO dto) {
         if (dto == null) {
             return null;

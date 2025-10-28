@@ -17,6 +17,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service-Klasse für Operationen auf {@link Bestand}-Entities.
+ * <p>
+ * Bietet Methoden zum Abrufen, Aktualisieren und Transferieren von Beständen
+ * sowie zur Berechnung des Gesamtbestands.
+ * </p>
+ *
+ * Autor: Nico Imesch
+ * Version: 1.0
+ */
 @Service
 public class BestandService {
 
@@ -30,14 +40,35 @@ public class BestandService {
         this.lokRepository = lokRepository;
     }
 
+    /**
+     * Liefert alle Bestände.
+     *
+     * @return Liste aller Bestände
+     */
     public List<Bestand> findAll() {
         return bestandRepository.findAll();
     }
 
+    /**
+     * Findet Bestände anhand der Artikelnummer.
+     *
+     * @param artNumber Artikelnummer der Lok
+     * @return Liste von Beständen
+     */
     public List<Bestand> findByArtNumber(String artNumber) {
         return bestandRepository.findByLok_ArtNumber(artNumber);
     }
 
+    /**
+     * Aktualisiert einen Bestand basierend auf dem übergebenen DTO.
+     * <p>
+     * Falls der Bestand noch nicht existiert, wird ein neuer Eintrag angelegt.
+     * </p>
+     *
+     * @param form BestandFormDTO mit ArtNumber, Regal, Tablar und Menge
+     * @return Aktualisierter Bestand
+     * @throws RuntimeException wenn Lagerplatz oder Lok nicht gefunden wird
+     */
     public Bestand updateBestand(BestandFormDTO form) {
 
         // Werte aus DTO
@@ -70,10 +101,22 @@ public class BestandService {
         return bestandRepository.save(bestand);
     }
 
+    /**
+     * Findet Bestände an einem bestimmten Lagerplatz.
+     *
+     * @param regal  Regalbezeichnung
+     * @param tablar Tablarbezeichnung
+     * @return Liste von Beständen an diesem Lagerplatz
+     */
     public List<Bestand> findByLagerplatz(String regal, String tablar) {
         return bestandRepository.findByLagerplatz_RegalAndLagerplatz_Tablar(regal, tablar);
     }
 
+    /**
+     * Berechnet den Gesamtbestand pro Artikelnummer.
+     *
+     * @return Liste von GesamtBestandDTO mit ArtNumber und Gesamtmenge
+     */
     public List<GesamtBestandDTO> getGesamtBestand() {
         return bestandRepository.findAll().stream().collect(Collectors.groupingBy(b -> b.getLok().getArtNumber(),
                 Collectors.summingInt(Bestand:: getMenge)
@@ -82,6 +125,14 @@ public class BestandService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Findet Bestände nach Artikelnummer, inklusive eines "Fake"-Bestands,
+     * falls kein Bestand vorhanden ist.
+     *
+     * @param artNumber Artikelnummer der Lok
+     * @return Liste von BestandDTO
+     * @throws RuntimeException wenn die Lok nicht gefunden wird
+     */
     public List<BestandDTO> findByArtNumberIncludingEmpty(String artNumber) {
         Lok lok = lokRepository.findByArtNumber(artNumber)
                 .orElseThrow(() -> new RuntimeException("Lok nicht gefunden"));
@@ -105,7 +156,19 @@ public class BestandService {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * Transferiert Bestand von einem Lagerplatz zu einem anderen.
+     *
+     * @param artNumber Artikelnummer der Lok
+     * @param vonRegal  Quell-Regal
+     * @param vonTablar Quell-Tablar
+     * @param zuRegal   Ziel-Regal
+     * @param zuTablar  Ziel-Tablar
+     * @param menge     Menge zum Transferieren
+     * @return Aktualisierter Bestand am Ziel
+     * @throws RuntimeException wenn Lagerplatz, Lok oder Bestand nicht gefunden wird
+     *                          oder nicht genügend Bestand vorhanden ist
+     */
     @Transactional
     public Bestand transferBestand(String artNumber, String vonRegal, String vonTablar, String zuRegal, String zuTablar, int menge) {
 

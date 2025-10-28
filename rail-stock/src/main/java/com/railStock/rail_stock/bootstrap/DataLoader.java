@@ -12,6 +12,15 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+/**
+ * Lädt initiale Daten für Hersteller und Loks aus CSV-Dateien in die Datenbank.
+ * <p>
+ * Wird beim Start der Spring Boot Anwendung ausgeführt.
+ * </p>
+ *
+ * Autor: Nico Imesch
+ * Version: 1.0
+ */
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -19,6 +28,12 @@ public class DataLoader implements CommandLineRunner {
     private final LokRepository lokRepository;
     private final LagerplatzRepository lagerplatzRepository; // ✅ Feld hinzufügen
 
+    /**
+     * Konstruktor für Dependency Injection.
+     *
+     * @param herstellerRepository Repository für Hersteller
+     * @param lokRepository Repository für Lokomotiven
+     */
     public DataLoader(HerstellerRepository herstellerRepository,
                       LokRepository lokRepository,
                       LagerplatzRepository lagerplatzRepository) {
@@ -27,6 +42,12 @@ public class DataLoader implements CommandLineRunner {
         this.lagerplatzRepository = lagerplatzRepository; // ✅ injizieren
     }
 
+    /**
+     * Führt das Laden der CSV-Daten aus, falls die Tabellen leer sind.
+     *
+     * @param args Startargumente (werden nicht verwendet)
+     * @throws Exception bei Fehlern beim Einlesen der CSV-Dateien
+     */
     @Override
     public void run(String... args) throws Exception {
         // Hersteller laden

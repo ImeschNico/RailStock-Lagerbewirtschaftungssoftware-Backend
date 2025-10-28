@@ -11,16 +11,54 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST-Controller zur Verwaltung und Abfrage von Lokomotiven.
+ * <p>
+ * Diese Klasse stellt API-Endpunkte bereit, um Lokdaten anhand verschiedener
+ * Filterkriterien (z. B. Artikelnummer, Bezeichnung, Hersteller usw.) abzurufen.
+ * Die eigentliche Geschäftslogik wird in {@link LokService} umgesetzt.
+ * </p>
+ *
+ * <p><b>Base Path:</b> {@code /api/loks}</p>
+ *
+ * @author Nico Imesch
+ * @version 1.0
+ */
+@Tag(name = "Lokverwaltung", description = "API-Endpunkte zur Filterung und Verwaltung von Lokomotiven")
 @RestController
 @RequestMapping("/api/loks")
 public class LokController {
 
     private final LokService lokService;
 
+    /**
+     * Konstruktor zur Initialisierung des Controllers mit dem zugehörigen Service.
+     *
+     * @param lokService Service-Klasse zur Verwaltung der Lokomotiven
+     */
     public LokController(LokService lokService) {
         this.lokService = lokService;
     }
 
+    /**
+     * Filtert Lokomotiven anhand der angegebenen Parameter.
+     * <p>
+     * Alle Parameter sind optional. Wenn kein Filter gesetzt ist, werden alle
+     * Lokomotiven zurückgegeben.
+     * </p>
+     *
+     * @param artNumber       optionale Artikelnummer der Lok
+     * @param bezeichnung     optionale Bezeichnung der Lok
+     * @param typ             optionaler Loktyp (z. B. „E-Lok“, „Diesellok“)
+     * @param modell          optionales Modell oder Baureihe
+     * @param stromart        optionale Stromart (z. B. „AC“, „DC“, „Digital“)
+     * @param spur            optionale Spurweite (z. B. „H0“, „N“)
+     * @param epoche          optionale Eisenbahnepoche (z. B. „III“, „IV“)
+     * @param betriebsart     optionale Betriebsart (z. B. „Analog“, „Digital“)
+     * @param herstellerName  optionaler Herstellername
+     * @return Liste von {@link LokDTO}-Objekten, die den Filterkriterien entsprechen
+     */
+    @Operation(summary = "Filtert Lokomotiven nach verschiedenen Kriterien")
     @GetMapping("/filter")
     public List<LokDTO> filterLoks(
             @RequestParam(required = false) String artNumber,
