@@ -14,7 +14,7 @@ public class Lok {
     @Column(nullable = false, length = 50)
     private String artNumber;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 1000)
     private String bezeichnung;
 
     @Column(nullable = false, length = 100)

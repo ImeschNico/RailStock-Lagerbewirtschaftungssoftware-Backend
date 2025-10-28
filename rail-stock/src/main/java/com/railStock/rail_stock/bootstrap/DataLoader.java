@@ -1,9 +1,10 @@
 package com.railStock.rail_stock.bootstrap;
 
-
 import com.railStock.rail_stock.entity.Hersteller;
+import com.railStock.rail_stock.entity.Lagerplatz;
 import com.railStock.rail_stock.entity.Lok;
 import com.railStock.rail_stock.repository.HerstellerRepository;
+import com.railStock.rail_stock.repository.LagerplatzRepository;
 import com.railStock.rail_stock.repository.LokRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,24 +17,28 @@ public class DataLoader implements CommandLineRunner {
 
     private final HerstellerRepository herstellerRepository;
     private final LokRepository lokRepository;
+    private final LagerplatzRepository lagerplatzRepository; // ✅ Feld hinzufügen
 
-    public DataLoader(HerstellerRepository herstellerRepository, LokRepository lokRepository) {
+    public DataLoader(HerstellerRepository herstellerRepository,
+                      LokRepository lokRepository,
+                      LagerplatzRepository lagerplatzRepository) {
         this.herstellerRepository = herstellerRepository;
         this.lokRepository = lokRepository;
+        this.lagerplatzRepository = lagerplatzRepository; // ✅ injizieren
     }
 
     @Override
     public void run(String... args) throws Exception {
-        //Nur laden wenn die Tabelle leer ist
+        // Hersteller laden
         if (herstellerRepository.count() == 0) {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
                     getClass().getResourceAsStream("/data/hersteller.csv")
-            ))){
+            ))) {
                 String line;
-                br.readLine(); //Kopfzeile überspringen
+                br.readLine(); // Kopfzeile überspringen
                 while ((line = br.readLine()) != null) {
                     String[] parts = line.split(";");
-                    if (parts.length >= 2){
+                    if (parts.length >= 2) {
                         Hersteller hersteller = new Hersteller();
                         hersteller.setName(parts[1].trim());
                         herstellerRepository.save(hersteller);
@@ -41,15 +46,17 @@ public class DataLoader implements CommandLineRunner {
                 }
             }
         }
+
+        // Loks laden
         if (lokRepository.count() == 0) {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
                     getClass().getResourceAsStream("/data/lokDaten.csv")
-            ))){
+            ))) {
                 String line;
-                br.readLine();
+                br.readLine(); // Kopfzeile überspringen
                 while ((line = br.readLine()) != null) {
                     String[] parts = line.split(";");
-                    if (parts.length >= 9){
+                    if (parts.length >= 9) {
                         Lok lok = new Lok();
                         lok.setArtNumber(parts[0].trim());
                         lok.setBezeichnung(parts[1].trim());
@@ -60,12 +67,26 @@ public class DataLoader implements CommandLineRunner {
                         lok.setEpoche(parts[6].trim());
                         lok.setBetriebsart(parts[7].trim());
 
-
-
+                        String herstellerName = parts[8].trim();
+                        Hersteller hersteller = herstellerRepository.findByName(herstellerName);
+                        if (hersteller == null) {
+                            hersteller = new Hersteller();
+                            hersteller.setName(herstellerName);
+                            hersteller = herstellerRepository.save(hersteller);
+                        }
+                        lok.setHersteller(hersteller);
                         lokRepository.save(lok);
                     }
                 }
             }
+        }
+
+        // ✅ LEGACY-Lagerplatz anlegen, außerhalb der Schleifen
+        if (lagerplatzRepository.count() == 0) {
+            Lagerplatz legacyLp = new Lagerplatz();
+            legacyLp.setRegal("LEGACY");
+            legacyLp.setTablar("LEGACY");
+            lagerplatzRepository.save(legacyLp);
         }
     }
 }
