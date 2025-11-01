@@ -102,7 +102,7 @@ public class DataLoader implements CommandLineRunner {
             }
         }
 
-        // ✅ LEGACY-Lagerplatz anlegen, außerhalb der Schleifen
+        //  LEGACY-Lagerplatz anlegen, außerhalb der Schleifen
         if (lagerplatzRepository.count() == 0) {
             Lagerplatz legacyLp = new Lagerplatz();
             legacyLp.setRegal("LEGACY");
