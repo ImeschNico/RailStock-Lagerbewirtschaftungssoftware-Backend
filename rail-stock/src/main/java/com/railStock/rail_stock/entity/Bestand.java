@@ -50,6 +50,9 @@ public class Bestand {
     @Column(nullable = false)
     private int menge;
 
+    @ManyToOne
+    @JoinColumn(name = "hersteller_id")
+    private Hersteller hersteller;
 
     //----Konstruktoren ----
     /**
@@ -140,5 +143,13 @@ public class Bestand {
      */
     public void setMenge(int menge) {
         this.menge = menge;
+    }
+
+    public Hersteller getHersteller() {
+        return hersteller;
+    }
+
+    public void setHersteller(Hersteller hersteller) {
+        this.hersteller = hersteller;
     }
 }

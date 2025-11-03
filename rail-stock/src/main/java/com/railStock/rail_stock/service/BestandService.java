@@ -34,10 +34,12 @@ public class BestandService {
     private final LagerplatzRepository lagerplatzRepository;
     private final LokRepository lokRepository;
 
+
     public BestandService(BestandRepository betsandRepository, LagerplatzRepository lagerplatzRepository, LokRepository lokRepository) {
         this.bestandRepository = betsandRepository;
         this.lagerplatzRepository = lagerplatzRepository;
         this.lokRepository = lokRepository;
+
     }
 
     /**
@@ -154,6 +156,11 @@ public class BestandService {
         return bestaende.stream()
                 .map(BestandMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<BestandDTO> getBestandByHersteller(String herstellerName){
+        List<Bestand> herstellerBestand = bestandRepository.findByHersteller_NameIgnoreCase(herstellerName);
+        return herstellerBestand.stream().map(BestandMapper::toDTO).collect(Collectors.toList());
     }
 
     /**

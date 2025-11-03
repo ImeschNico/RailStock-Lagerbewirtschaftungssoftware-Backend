@@ -40,6 +40,8 @@ public class BestandDTO {
      */
     private int menge;
 
+    private String herstellerName;
+
     /**
      * Konstruktor zur Initialisierung eines {@link BestandDTO}-Objekts.
      *
@@ -48,11 +50,12 @@ public class BestandDTO {
      * @param lagerplatz  zugehöriger Lagerplatz
      * @param menge       verfügbare Menge
      */
-    public BestandDTO(Long id, LokDTO lok, LagerplatzDTO lagerplatz, int menge){
+    public BestandDTO(Long id, LokDTO lok, LagerplatzDTO lagerplatz, int menge, String herstellerName) {
         this.id = id;
         this.lok = lok;
         this.lagerplatz = lagerplatz;
         this.menge = menge;
+        this.herstellerName = herstellerName;
     }
 
     /**
@@ -127,5 +130,7 @@ public class BestandDTO {
         this.menge = menge;
     }
 
-
+    public String getHerstellerName() {
+        return herstellerName;
+    }
 }

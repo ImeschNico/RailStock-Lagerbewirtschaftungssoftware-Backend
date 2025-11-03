@@ -3,6 +3,7 @@ package com.railStock.rail_stock.mapper;
 
 import com.railStock.rail_stock.dto.BestandDTO;
 import com.railStock.rail_stock.entity.Bestand;
+import com.railStock.rail_stock.entity.Hersteller;
 
 /**
  * Mapper-Klasse zur Umwandlung zwischen {@link Bestand} Entity und {@link BestandDTO}.
@@ -31,7 +32,8 @@ public class BestandMapper {
                 entity.getId(),
                 entity.getLok() != null ? LokMapper.toDTO(entity.getLok()) : null,
                 entity.getLagerplatz() != null ? LagerplatzMapper.toDTO(entity.getLagerplatz()) : null,
-                entity.getMenge()
+                entity.getMenge(),
+                entity.getHersteller() != null ? entity.getHersteller().getName() : null
 
         );
     }
@@ -50,7 +52,7 @@ public class BestandMapper {
      * @param dto BestandDTO
      * @return Bestand-Entity oder {@code null}, falls das DTO {@code null} ist
      */
-    public static Bestand toEntity(BestandDTO dto) {
+    public static Bestand toEntity(BestandDTO dto, Hersteller hersteller) {
         if (dto == null) {
             return null;
         }
@@ -61,6 +63,7 @@ public class BestandMapper {
                 dto.getMenge()
         );
         bestand.setId(dto.getId());
+        bestand.setHersteller(hersteller);
         return bestand;
 
 

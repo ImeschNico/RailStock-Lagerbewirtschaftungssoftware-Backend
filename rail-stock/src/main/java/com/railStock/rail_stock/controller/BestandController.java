@@ -55,6 +55,11 @@ public class BestandController {
         return bestandService.findByArtNumberIncludingEmpty(artNumber);
     }
 
+    @GetMapping("/hersteller/{herstellerName}")
+    public List<BestandDTO> findBestandByHersteller(@PathVariable String herstellerName) {
+        return bestandService.getBestandByHersteller(herstellerName);
+    }
+
     /**
      * Aktualisiert den Bestand anhand der übergebenen Formulardaten.
      *

@@ -1,7 +1,6 @@
 package com.railStock.rail_stock.repository;
 
 import com.railStock.rail_stock.entity.Bestand;
-import com.railStock.rail_stock.entity.Lagerplatz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -56,4 +55,6 @@ public interface BestandRepository extends JpaRepository<Bestand, Long> {
                                              @Param("regal") String regal,
                                              @Param("tablar") String tablar);
 
+    @Query("SELECT b FROM Bestand b WHERE LOWER(b.lok.hersteller.name) = LOWER(:name)")
+    List<Bestand> findByHersteller_NameIgnoreCase(@Param("name")String hersteller);
 }
