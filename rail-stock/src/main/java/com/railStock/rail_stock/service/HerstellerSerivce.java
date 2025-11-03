@@ -10,9 +10,16 @@ import java.util.List;
 /**
  * Service-Klasse für Operationen auf {@link Hersteller}-Entities.
  * <p>
- * Bietet Methoden zum Abrufen von Herstellern aus der Datenbank.
+ * Diese Klasse kapselt alle Operationen, die auf Hersteller-Daten ausgeführt werden,
+ * und dient als Vermittlungsschicht zwischen Controller und Repository.
+ * Dadurch wird eine klare Trennung zwischen Präsentations- und Datenzugriffsschicht erreicht.
  * </p>
  *
+ * <p><b>Typische Aufgaben:</b></p>
+ * <ul>
+ *     <li>Abrufen aller Hersteller aus der Datenbank</li>
+ *     <li>Suchen eines bestimmten Herstellers anhand seines Namens</li>
+ * </ul>
  * Autor: Nico Imesch
  * Version: 1.0
  */
@@ -38,5 +45,15 @@ public class HerstellerSerivce {
      */
     public Hersteller findHerstellerByName(String name) {
         return herstellerRepository.findByName(name);
+    }
+
+
+    /**
+     * Ruft alle in der Datenbank gespeicherten Hersteller ab.
+     *
+     * @return eine {@link List} aller {@link Hersteller}-Entities
+     */
+    public List<Hersteller> findAllHerstellers() {
+        return herstellerRepository.findAll();
     }
 }
