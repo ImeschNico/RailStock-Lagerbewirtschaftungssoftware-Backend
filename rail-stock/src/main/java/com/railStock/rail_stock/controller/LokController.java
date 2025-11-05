@@ -2,6 +2,7 @@ package com.railStock.rail_stock.controller;
 
 
 import com.railStock.rail_stock.dto.LokDTO;
+import com.railStock.rail_stock.dto.LokFormDTO;
 import com.railStock.rail_stock.entity.Lok;
 import com.railStock.rail_stock.service.LokService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,4 +74,10 @@ public class LokController {
     ){
         return lokService.filterLoks(artNumber, bezeichnung, typ, modell, stromart, spur, epoche, betriebsart, herstellerName);
     }
+
+    @PostMapping("/admin/neu")
+    public LokDTO createLok(@RequestBody LokFormDTO dto){
+        return lokService.createLok(dto);
+    }
+
 }

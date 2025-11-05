@@ -2,8 +2,11 @@ package com.railStock.rail_stock.service;
 
 
 import com.railStock.rail_stock.dto.LokDTO;
+import com.railStock.rail_stock.dto.LokFormDTO;
+import com.railStock.rail_stock.entity.Hersteller;
 import com.railStock.rail_stock.entity.Lok;
 import com.railStock.rail_stock.mapper.LokMapper;
+import com.railStock.rail_stock.repository.HerstellerRepository;
 import com.railStock.rail_stock.repository.LagerplatzRepository;
 import com.railStock.rail_stock.repository.LokRepository;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class LokService {
 
+    private final HerstellerRepository herstellerRepository;
     private final LokRepository lokRepository;
 
     /**
@@ -30,9 +34,30 @@ public class LokService {
      *
      * @param lokRepository Repository für Loks
      */
-    public LokService(LokRepository lokRepository) {
+    public LokService(LokRepository lokRepository, HerstellerRepository herstellerRepository) {
         this.lokRepository = lokRepository;
+        this.herstellerRepository = herstellerRepository;
 
+    }
+
+    public LokDTO createLok(LokFormDTO dto){
+       Lok lok = new Lok(
+               dto.getArtNumber(),
+               dto.getBezeichnung(),
+               dto.getTyp(),
+               dto.getModell(),
+               dto.getStromart(),
+               dto.getSpur(),
+               dto.getEpoche(),
+               dto.getBetriebsart()
+       );
+        Hersteller hersteller = herstellerRepository.findByName(dto.getHerstellerName());
+        if (hersteller == null) {
+            throw new IllegalArgumentException("Hersteller mit Namen '" + dto.getHerstellerName() + "' existiert nicht");
+        }
+        lok.setHersteller(hersteller);
+       Lok saved = lokRepository.save(lok);
+       return LokMapper.toDTO(saved);
     }
 
     /**
