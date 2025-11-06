@@ -1,6 +1,7 @@
 package com.railStock.rail_stock.controller;
 
 
+import com.railStock.rail_stock.ErrorHandling.NotFoundException;
 import com.railStock.rail_stock.dto.BestandDTO;
 import com.railStock.rail_stock.dto.BestandFormDTO;
 import com.railStock.rail_stock.dto.BestandTransferDTO;
@@ -9,6 +10,8 @@ import com.railStock.rail_stock.entity.Bestand;
 import com.railStock.rail_stock.entity.Lok;
 import com.railStock.rail_stock.mapper.BestandMapper;
 import com.railStock.rail_stock.service.BestandService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -119,4 +122,14 @@ public class BestandController {
         return BestandMapper.toDTO(transferred);
     }
 
+    @GetMapping("/alle")
+    public ResponseEntity<Integer> getAllBestandAsInt(){
+        return ResponseEntity.ok(bestandService.getAllBestandAsInt());
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+        public ResponseEntity<String> handleNotFound(NotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+
+    }
 }

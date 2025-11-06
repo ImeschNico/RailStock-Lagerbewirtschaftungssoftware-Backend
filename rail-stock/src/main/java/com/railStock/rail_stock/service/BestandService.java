@@ -1,6 +1,7 @@
 package com.railStock.rail_stock.service;
 
 
+import com.railStock.rail_stock.ErrorHandling.NotFoundException;
 import com.railStock.rail_stock.dto.BestandDTO;
 import com.railStock.rail_stock.dto.BestandFormDTO;
 import com.railStock.rail_stock.dto.GesamtBestandDTO;
@@ -49,6 +50,12 @@ public class BestandService {
      */
     public List<Bestand> findAll() {
         return bestandRepository.findAll();
+    }
+
+
+    public int getAllBestandAsInt() {
+        Integer sum = bestandRepository.getBestand();
+        return sum != null ? sum : 0;
     }
 
     /**
@@ -184,12 +191,8 @@ public class BestandService {
                 .orElseThrow(() -> new RuntimeException("Lagerplatz nicht gefunden"));
 
         Lagerplatz zuLp = lagerplatzRepository.findByRegalAndTablarIgnoreCase(zuRegal, zuTablar)
-                .orElseGet(() -> {
-                    Lagerplatz lp = new Lagerplatz();
-                    lp.setRegal(zuRegal);
-                    lp.setTablar(zuTablar);
-                    return lagerplatzRepository.save(lp);
-        });
+                .orElseThrow(() -> new NotFoundException("Ziel Lagerplatz " + zuRegal + "-" + zuTablar +"existiert nicht"));
+
 
         Lok lok = lokRepository.findByArtNumber(artNumber).orElseThrow(() -> new RuntimeException("Lok nicht gefunden"));
 
@@ -218,7 +221,8 @@ public class BestandService {
                 });
 
         zuBestand.setMenge(zuBestand.getMenge()+menge);
-        return bestandRepository.save(zuBestand);
+        Bestand saved = bestandRepository.saveAndFlush(zuBestand);
+        return saved;
     }
 
 }

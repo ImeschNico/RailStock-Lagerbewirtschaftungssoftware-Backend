@@ -1,6 +1,7 @@
 package com.railStock.rail_stock.repository;
 
 import com.railStock.rail_stock.entity.Bestand;
+import com.railStock.rail_stock.entity.Lok;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,6 +30,9 @@ public interface BestandRepository extends JpaRepository<Bestand, Long> {
      * @return Liste von Beständen
      */
     List<Bestand> findByLok_ArtNumber(String artNumber);
+
+    @Query("SELECT SUM(b.menge) FROM Bestand b")
+            Integer getBestand();
 
     /**
      * Findet alle Bestände an einem bestimmten Lagerplatz (Regal + Tablar).
