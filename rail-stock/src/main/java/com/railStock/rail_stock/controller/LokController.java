@@ -75,6 +75,11 @@ public class LokController {
         return lokService.filterLoks(artNumber, bezeichnung, typ, modell, stromart, spur, epoche, betriebsart, herstellerName);
     }
 
+    /**
+     * ERstellt neue Loks
+     * @param dto
+     * @return neu erstelllte Lok anahnd der Eingaben
+     */
     @PostMapping("/admin/neu")
     public LokDTO createLok(@RequestBody LokFormDTO dto){
         return lokService.createLok(dto);

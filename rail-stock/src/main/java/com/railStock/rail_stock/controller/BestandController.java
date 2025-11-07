@@ -58,6 +58,11 @@ public class BestandController {
         return bestandService.findByArtNumberIncludingEmpty(artNumber);
     }
 
+    /**
+     * Liefert den Betsand nach Hersteller
+     * @param herstellerName der Name des Herstellers
+     * @return Liste des Bestandes nach Hersteller
+     */
     @GetMapping("/hersteller/{herstellerName}")
     public List<BestandDTO> findBestandByHersteller(@PathVariable String herstellerName) {
         return bestandService.getBestandByHersteller(herstellerName);
@@ -122,11 +127,20 @@ public class BestandController {
         return BestandMapper.toDTO(transferred);
     }
 
+    /**
+     * Liefert alle Bestände damit man einen Überblick über alle Bestände hat
+     * @return Alle Bestände als eine Nummer(Integer)
+     */
     @GetMapping("/alle")
     public ResponseEntity<Integer> getAllBestandAsInt(){
         return ResponseEntity.ok(bestandService.getAllBestandAsInt());
     }
 
+    /**
+     * Fehler Handler, um richtige Fehler im Dev Tool anzuzeigen
+     * @param ex
+     * @return Not Found status
+     */
     @ExceptionHandler(NotFoundException.class)
         public ResponseEntity<String> handleNotFound(NotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

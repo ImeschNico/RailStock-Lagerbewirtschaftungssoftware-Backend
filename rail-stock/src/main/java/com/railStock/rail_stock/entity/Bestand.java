@@ -145,10 +145,18 @@ public class Bestand {
         this.menge = menge;
     }
 
+    /**
+     * Gibt hersteller zurück
+     * @return hersteller
+     */
     public Hersteller getHersteller() {
         return hersteller;
     }
 
+    /**
+     * Setzt den Hersteller
+     * @param hersteller
+     */
     public void setHersteller(Hersteller hersteller) {
         this.hersteller = hersteller;
     }

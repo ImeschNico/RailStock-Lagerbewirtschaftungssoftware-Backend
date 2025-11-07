@@ -106,46 +106,90 @@ public class LokDTO {
         this.herstellerName = herstellerName;
     }
 
+    /**
+     * Gibt ID zurück
+     * @return id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Gibt ArtNummer zurück
+     * @return artNumber
+     */
     public String getArtNumber() {
         return artNumber;
     }
 
+    /**
+     * Gibt Bezeichung zurück
+     * @return bezeichnung
+     */
     public String getBezeichnung() {
         return bezeichnung;
     }
 
+    /**
+     * Gibt Typ zurück
+     * @return typ
+     */
     public String getTyp() {
         return typ;
     }
 
+    /**
+     * Gibt Modell zurück
+     * @return modell
+     */
     public String getModell() {
         return modell;
     }
 
+    /**
+     * Gibt stromart zurücl
+     * @return stromart
+     */
     public String getStromart() {
         return stromart;
     }
 
+    /**
+     * Gibt Spur zurück
+     * @return spur
+     */
     public String getSpur() {
         return spur;
     }
 
+    /**
+     * Gibt Epoche zurück
+     * @return epoche
+     */
     public String getEpoche() {
         return epoche;
     }
 
+    /**
+     * Gibt Betriebsart zuzrück
+     * @return betriebsart
+     */
     public String getBetriebsart() {
         return betriebsart;
     }
 
+    /**
+     * Gibt Hersteller ID zuzrück
+     * @return HerstellerId
+     */
     public Long getHerstellerId() {
         return herstellerId;
     }
 
+    /**
+     * Gibt Hersteller Name zurück
+     * @return herstellerName
+     */
     public String getHerstellerName() {
         return herstellerName;
     }

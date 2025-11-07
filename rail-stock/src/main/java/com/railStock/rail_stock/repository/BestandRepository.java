@@ -31,6 +31,14 @@ public interface BestandRepository extends JpaRepository<Bestand, Long> {
      */
     List<Bestand> findByLok_ArtNumber(String artNumber);
 
+    /**
+     * Gibt die Summe aller Bestände über alle Lagerplätze hinweg zurück.
+     * <p>
+     * Diese Methode summiert die Menge aller {@link Bestand}-Einträge.
+     * </p>
+     *
+     * @return die Gesamtmenge aller Bestände oder {@code null}, falls keine Daten vorhanden sind
+     */
     @Query("SELECT SUM(b.menge) FROM Bestand b")
             Integer getBestand();
 
@@ -59,6 +67,15 @@ public interface BestandRepository extends JpaRepository<Bestand, Long> {
                                              @Param("regal") String regal,
                                              @Param("tablar") String tablar);
 
+    /**
+     * Findet alle Bestände, deren zugehörige Lok von einem bestimmten Hersteller stammt.
+     * <p>
+     * Diese Abfrage vergleicht den Namen des Herstellers case-insensitive.
+     * </p>
+     *
+     * @param hersteller der Name des Herstellers
+     * @return eine Liste aller {@link Bestand}-Einträge, deren Lok vom angegebenen Hersteller stammt
+     */
     @Query("SELECT b FROM Bestand b WHERE LOWER(b.lok.hersteller.name) = LOWER(:name)")
     List<Bestand> findByHersteller_NameIgnoreCase(@Param("name")String hersteller);
 }
